@@ -146,4 +146,57 @@ This section focuses on pricing Constant Maturity Swap (CMS) products using conv
 
 ---
 
+# Part 4. CMS Pricing with Convexity Correction
+
+## Overview
+This section calculates the present value (PV) of CMS payoffs and caplet payoffs using convexity correction, leveraging the SABR model for volatility estimation and static replication techniques.
+
+---
+
+## Key Components
+
+### 1. Black-76 and SABR Models
+- **Black-76 Formula**: Used for pricing options, providing the core framework for swaption valuation.
+- **SABR Model**: Computes implied volatility for CMS payoffs and caplets, supporting both at-the-money (ATM) and non-ATM cases.
+
+### 2. Convexity Adjustment Using IRR
+- **IRR Calculation**:
+  - Calculates the Internal Rate of Return (IRR) and its first and second derivatives.
+  - These values are critical for convexity adjustment and contribute to the h-functions used in the static replication process.
+
+### 3. CMS Payoff Pricing
+- **CMS Payoff PV**:
+  - Uses convexity correction by integrating over the payoff distribution.
+  - Combines static replication techniques with SABR-calibrated volatilities.
+  - Key components include:
+    - `term1`: Adjustment based on the IRR-derived h-function.
+    - `term3` and `term4`: Integrals of CMS payoffs using the h-function and Black-76 option prices.
+
+### 4. CMS Caplet Payoff Pricing
+- **CMS Caplet PV**:
+  - Similar to the CMS payoff calculation but focuses on caplet-style payoffs.
+  - Incorporates convexity correction and integration of caplet payoffs with SABR volatilities.
+  - Key terms:
+    - `term5`: Convexity adjustment for caplet-style payoff.
+    - `term6`: Integral over caplet payoff distribution.
+
+---
+
+## Results
+
+### 1. PV of CMS Rate Payoff
+- **Input Data**:
+  - Forward rate (`F`): 0.043634
+  - Discount factor (`D`): 0.982184
+  - SABR parameters: Alpha = 0.176437, Beta = 0.9, Rho = -0.440701, Nu = 0.494010
+  - Calculated SABR volatility: 0.0016
+- **Computed PV**: 0.21192
+
+### 2. PV of CMS Caplet Payoff
+- **Input Data**:
+  - Same forward rate (`F`) and SABR parameters as above.
+  - Strike price: 0.0016
+- **Computed PV**: Incorporates convexity correction and static replication terms.
+
+
 
