@@ -2,7 +2,7 @@
 
 # Part 1. OIS and LIBOR Discount Curve Construction & Forward Swap Rate Calculation
 
-This project constructs the **Overnight Indexed Swap (OIS)** and **LIBOR** discount curves and calculates **Forward Swap Rates** using real-world interest rate data. The implementation includes the following steps:
+This section constructs the **Overnight Indexed Swap (OIS)** and **LIBOR** discount curves and calculates **Forward Swap Rates** using real-world interest rate data. The implementation includes the following steps:
 
 - Data preprocessing: Importing and cleaning OIS and IRS rate data.
 - Discount factor calculation: Using bootstrapping and numerical methods to calculate OIS and LIBOR discount factors.
@@ -114,6 +114,36 @@ Swaptions are then priced using the calibrated parameters for both models:
 Displaced Diffusion: Prices are computed using the DD_Call and DD_Put functions.
 SABR Model: Implied volatilities are computed first, followed by option pricing using the Black-76 formula.
 
+---
+# Part 3. Convexity Correction
+
+## Overview
+This section focuses on pricing Constant Maturity Swap (CMS) products using convexity correction and comparing CMS rates with forward swap rates. The calculations leverage previously calibrated SABR parameters and discount factors.
 
 ---
+
+## Key Components
+
+### 1. Data Input and Preparation
+- **Discount Factors**: OIS and LIBOR discount factors, along with forward LIBOR rates, are loaded from the `Discount Factors.csv` file.
+- **SABR Calibration Data**: Calibrated SABR parameters (Alpha, Rho, Nu) for various expiries and tenors are extracted from `data_SABR.csv`.
+
+### 2. Interpolation
+- **Linear Interpolation**: Applied to OIS and LIBOR discount factors for intermediate tenors.
+- **Cubic Spline Interpolation**: Used for SABR parameters (Alpha, Rho, Nu) across expiries and tenors.
+
+### 3. CMS Pricing
+- **Forward Swap Rate Calculation**: The forward swap rate is determined using interpolated discount factors.
+- **CMS Rate Calculation**: CMS rates are computed using static replication and convexity correction. The SABR model provides the volatility needed for pricing.
+- **Present Value of CMS Leg**: The PV of CMS legs receiving payments semi-annually or quarterly is computed over specified periods.
+
+### 4. Comparison of CMS and Forward Swap Rates
+- **CMS vs. Forward Swap Rates**: The project compares CMS rates and forward swap rates for various expiry and tenor combinations:
+  - 1Y x 1Y, 1Y x 2Y, ..., 1Y x 10Y
+  - 5Y x 1Y, 5Y x 2Y, ..., 5Y x 10Y
+  - 10Y x 1Y, 10Y x 2Y, ..., 10Y x 10Y
+- **Rate Differences**: The difference between CMS rates and forward swap rates is calculated to highlight convexity adjustments.
+
+---
+
 
